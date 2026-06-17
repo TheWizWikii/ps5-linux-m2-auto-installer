@@ -1,0 +1,94 @@
+========================================================================
+       GUÍA DE INSTALACIÓN: PS5 LINUX M.2 INSTALLER SCRIPT 🐧🎮
+========================================================================
+
+Este script automatiza por completo la instalación y migración de tu 
+sistema Linux Live (ej. Ubuntu) desde un almacenamiento USB externo 
+directamente al SSD M.2 NVMe interno de tu PlayStation 5.
+
+A diferencia de las versiones originales, este script incluye correcciones 
+automáticas para evitar fallos comunes de particionado y dependencias faltantes.
+
+------------------------------------------------------------------------
+1. CARACTERÍSTICAS Y MEJORAS
+------------------------------------------------------------------------
+* Instalación de Dependencias: Detecta si 'rsync' está instalado y lo 
+  configura automáticamente si falta.
+* Particionado Automático: Si el SSD M.2 no tiene particiones creadas 
+  (nvme0n1p1), el script genera automáticamente una tabla GPT y la 
+  partición necesaria sin interrumpir el proceso.
+* Formateo Seguro: Prepara la partición en formato 'ext4' asignando las 
+  etiquetas (labels) correctas de forma automática.
+* Traducción al Español: Mensajes en consola limpios y claros para seguir 
+  el progreso en tiempo real.
+
+------------------------------------------------------------------------
+2. REQUISITOS PREVIOS
+------------------------------------------------------------------------
+1. Tener una PS5 ejecutando Linux desde un entorno Live (USB o SSD externo).
+2. Tener un SSD M.2 NVMe compatible instalado físicamente en la consola.
+3. Conexión a internet en la PS5 (necesaria únicamente si el sistema 
+   requiere descargar la herramienta 'rsync').
+
+------------------------------------------------------------------------
+3. MODO DE USO (PASO A PASO)
+------------------------------------------------------------------------
+
+Abre la terminal de tu Linux en la PS5 y sigue estos pasos:
+
+PASO 1: Ubícate en la carpeta donde tienes guardado el script.
+   Ejemplo (si está en Descargas):
+   cd ~/Downloads/ps5-linux-script-main
+
+PASO 2: Otorga permisos de ejecución al archivo.
+   Asegúrate de que el sistema operativo permita ejecutar el script con:
+   chmod +x m2_install_live.sh
+
+PASO 3: Ejecuta el instalador.
+   Inicia el proceso utilizando privilegios de superusuario (sudo):
+   sudo ./m2_install_live.sh
+
+*(Nota: Como dice el propio script, la copia del sistema puede tardar 
+unos minutos dependiendo de la velocidad de tu USB, dale su tiempo).*
+
+------------------------------------------------------------------------
+4. PASO FINAL OBLIGATORIO (POST-INSTALACIÓN)
+------------------------------------------------------------------------
+
+Una vez que el script termine y te muestre el mensaje de éxito, debes 
+indicarle al cargador de arranque de la PS5 que inicie desde el nuevo 
+almacenamiento M.2 interno:
+
+1. Abre el archivo de configuración del arranque con el editor nano:
+   sudo nano /boot/efi/cmdline.txt
+
+2. Busca la línea que dice: 
+   root=LABEL=ubuntu2604  (o el nombre original de tu sistema)
+
+3. Cambia ese fragmento para que apunte al M.2 agregándole el sufijo "-m2". 
+   Debería quedar exactamente así:
+   root=LABEL=ubuntu2604-m2
+
+4. Guarda los cambios presionando la combinación:
+   Ctrl + O  (luego presiona Enter para confirmar)
+
+5. Sal del editor presionando:
+   Ctrl + X
+
+6. Reinicia tu consola. 
+
+¡Listo! Tu Linux en PS5 ahora iniciará y correrá a la velocidad del 
+SSD M.2 interno.
+
+------------------------------------------------------------------------
+5. ESTRUCTURA INTERNA DEL SCRIPT
+------------------------------------------------------------------------
+El script realiza de forma ordenada las siguientes acciones automáticas:
+1. Validación: Comprueba los permisos de root (sudo).
+2. Entorno: Verifica e instala 'rsync' mediante apt si hace falta.
+3. Hardware: Comprueba el SSD M.2 y crea la partición /dev/nvme0n1p1 vía fdisk.
+4. Sincronización: Formatea la unidad y clona los archivos del sistema 
+   actual excluyendo directorios virtuales (/proc, /sys, /dev, etc.).
+5. Configuración: Genera el nuevo archivo /etc/fstab para asegurar el 
+   correcto montaje en los próximos arranques de la consola.
+========================================================================
