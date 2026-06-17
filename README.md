@@ -26,5 +26,5 @@ Sigue estos sencillos pasos desde la terminal de tu PS5:
 ### 1. Clonar o descargar el repositorio
 Si no tienes el script en tu sistema, descárgalo o clónalo:
 ```bash
-git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
-cd TU_REPOSITORIO
+git clone https://github.com/TheWizWikii/ps5-linux-m2-auto-installer.git
+cd ps5-linux-m2-auto-installer
