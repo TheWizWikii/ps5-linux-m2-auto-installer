@@ -38,7 +38,7 @@ Abre la terminal de tu Linux en la PS5 y sigue estos pasos:
 
 PASO 1: Ubícate en la carpeta donde tienes guardado el script.
    Ejemplo (si está en Descargas):
-   cd ~/Downloads/ps5-linux-script-main
+   cd ~/Downloads/ps5-linux-m2-auto-installer
 
 PASO 2: Otorga permisos de ejecución al archivo.
    Asegúrate de que el sistema operativo permita ejecutar el script con:
